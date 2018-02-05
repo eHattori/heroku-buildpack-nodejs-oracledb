@@ -9,8 +9,6 @@ CACHE_DIR=$2
 ENV_DIR=$3
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
-echo $LP_DIR
-
 indent() {
     echo "       $*" || true
 }
@@ -23,7 +21,7 @@ MIRROR=https://github.com/eHattori/oracle-instant-client/archive/v1.0.0.zip
 
 
 indent "Create Oracle Path..."
-mkdir -p opt/oracle
+mkdir -p "$ORACLE_DIR"
 
 indent "Download Instant Client..."
 wget -q $MIRROR
@@ -43,12 +41,12 @@ indent "Unzip sqlplus..."
 unzip -q instantclient-sqlplus-linux.x64-12.1.0.2.0.zip
 
 indent "Move Instant Client..."
-sudo mv instantclient_12_1 instantclient
+mv instantclient_12_1 instantclient
 
 indent "pwd..."
-sudo mv instantclient /opt/oracle
+mv instantclient "$ORACLE_DIR"
 
-cd /opt/oracle
+cd "$ORACLE_DIR"
 
 indent "Create Symbolic link..."
 ln -s /opt/oracle/instantclient/libclntsh.so.12.1 /opt/oracle/instantclient/libclntsh.so

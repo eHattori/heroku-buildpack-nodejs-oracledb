@@ -25,26 +25,25 @@ mkdir -p opt/oracle
 indent "Download Instant Client..."
 wget -q $MIRROR
 
-indent "PWD..."
-pwd
-
-
-
 indent "Unzip client..."
 unzip -q v1.0.0.zip
 
-indent "LL..."
-ls 
-
 cd ./oracle-instant-client-1.0.0
 
-unzip instantclient-basic-linux.x64-12.1.0.2.0.zip
-unzip instantclient-sdk-linux.x64-12.1.0.2.0.zip
-unzip instantclient-sqlplus-linux.x64-12.1.0.2.0.zip
+indent "Unzip instantclient..."
+unzip -q instantclient-basic-linux.x64-12.1.0.2.0.zip
+
+indent "Unzip sdk..."
+unzip -q instantclient-sdk-linux.x64-12.1.0.2.0.zip
+
+indent "Unzip sqlplus..."
+unzip -q instantclient-sqlplus-linux.x64-12.1.0.2.0.zip
 
 indent "Move Instant Client..."
-mv instantclient_12_1 instantclient
-mv instantclient /opt/oracle
+sudo mv instantclient_12_1 instantclient
+
+indent "pwd..."
+sudo mv instantclient /opt/oracle
 
 cd /opt/oracle
 

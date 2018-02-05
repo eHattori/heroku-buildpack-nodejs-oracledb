@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
-if [ -f $1/package.json ]; then
-  echo "Node.js with OracleDB"
-  exit 0
-fi
-
-exit 1
+echo "Heroku with OracleDB Instant Client 12.1"
+exit 0

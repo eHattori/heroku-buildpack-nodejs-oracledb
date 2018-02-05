@@ -49,8 +49,8 @@ mv instantclient "$ORACLE_DIR"
 cd "$ORACLE_DIR"
 
 indent "Create Symbolic link..."
-ln -s /opt/oracle/instantclient/libclntsh.so.12.1 /opt/oracle/instantclient/libclntsh.so
-ln -s /opt/oracle/instantclient/libocci.so.12.1 /opt/oracle/instantclient/libocci.so
+ln -s "$ORACLE_DIR/instantclient/libclntsh.so.12.1" "$ORACLE_DIR/instantclient/libclntsh.so"
+ln -s "$ORACLE_DIR/instantclient/libocci.so.12.1" "$ORACLE_DIR/instantclient/libocci.so"
 
 indent "Export ENV..."
 export LD_LIBRARY_PATH="/opt/oracle/instantclient"

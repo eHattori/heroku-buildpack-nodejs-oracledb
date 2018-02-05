@@ -32,9 +32,9 @@ indent "LL..."
 ls -lah
 
 indent "Unzip client..."
-unzip 1.0.0.zip
+unzip v1.0.0.zip
 
-cd ./1.0.0
+cd ./v1.0.0
 
 unzip instantclient-basic-linux.x64-12.1.0.2.0.zip
 unzip instantclient-sdk-linux.x64-12.1.0.2.0.zip

@@ -16,54 +16,43 @@ VENDOR_DIR=$BUILD_DIR/vendor
 ORACLE_DIR=$VENDOR_DIR/oracle
 INSTANTCLIENT_DIR=$ORACLE_DIR/instantclient_12_1
 PROFILE_D_DIR=$BUILD_DIR/.profile.d
+MIRROR=https://github.com/eHattori/oracle-instant-client/archive/v1.0.0.zip
 
-BASIC_FILENAME=instantclient-basic-linux.x64-12.1.0.2.0.zip
-SDK_FILENAME=instantclient-sdk-linux.x64-12.1.0.2.0.zip
 
-#MIRROR=https://github.com/guilhermeesteves-luizalabs/heroku-buildpack-nodejs-oracledb/blob/master
+indent "Create Oracle Path..."
+mkdir -p opt/oracle
 
-#if [ ! -f $CACHE_DIR/$BASIC_FILENAME ]; then
-#    indent "Downloading $BASIC_FILENAME..."
-#    curl -# -o $CACHE_DIR/$BASIC_FILENAME $MIRROR/$BASIC_FILENAME
-#    wget $CACHE_DIR/$BASIC_FILENAME $MIRROR/$BASIC_FILENAME?raw=true
-#fi
+indent "Download Instant Client..."
+wget $MIRROR
 
-#f [ ! -f $CACHE_DIR/$SDK_FILENAME ]; then
-#    indent "Downloading $SDK_FILENAME..."
-#    #curl -# -o $CACHE_DIR/$SDK_FILENAME $MIRROR/$SDK_FILENAME
-#    wget $CACHE_DIR/$SDK_FILENAME $MIRROR/$SDK_FILENAME?raw=true
-#fi
+pwd
 
-sudo mkdir -pv /opt/oracle
+indent "Unzip client..."
+unzip oracle-instant-client-1.0.0.zip
 
-mkdir -pv $ORACLE_DIR
+cd ./oracle-instant-client-1.0.0
 
-indent "Extracting $BASIC_FILENAME..."
-unzip  $(pwd)/$BASIC_FILENAME -d $ORACLE_DIR
+unzip instantclient-basic-linux.x64-12.1.0.2.0.zip
+unzip instantclient-sdk-linux.x64-12.1.0.2.0.zip
+unzip instantclient-sqlplus-linux.x64-12.1.0.2.0.zip
 
-indent "Extracting $SDK_FILENAME..."
-unzip  $(pwd)/$SDK_FILENAME -d $ORACLE_DIR
+indent "Move Instant Client..."
+mv instantclient_12_1 instantclient
+mv instantclient /opt/oracle
 
-indent "Symlinking libclntsh.so..."
-cp -R $ORACLE_DIR/instantclient_12_1 /opt/oracle/instantclient
-#mv $ORACLE_DIR/instantclient_12_1 /opt/oracle/instantclient
+cd /opt/oracle
 
-mv /opt/oracle/instantclient/libclntsh.so.12.1 /opt/oracle/instantclient/libclntsh.so
+indent "Create Symbolic link..."
+ln -s /opt/oracle/instantclient/libclntsh.so.12.1 /opt/oracle/instantclient/libclntsh.so
+ln -s /opt/oracle/instantclient/libocci.so.12.1 /opt/oracle/instantclient/libocci.so
 
-export OCI_LIB_DIR=/opt/oracle/instantclient
-export OCI_INC_DIR=/opt/oracle/instantclient/sdk/include
+indent "Export ENV..."
+export LD_LIBRARY_PATH="/opt/oracle/instantclient"
+export OCI_HOME="/opt/oracle/instantclient"
+export OCI_LIB_DIR="/opt/oracle/instantclient"
+export OCI_INCLUDE_DIR="/opt/oracle/instantclient/sdk/include"
 
-indent "Installing oracledb from npm..."
+
 THIS_DIR=`pwd`
-cd $BUILD_DIR
-#npm install oracledb
-cd $THIS_DIR
-
-indent "Saving environment setup script..."
-mkdir -p $PROFILE_D_DIR
-cat << EOF > $PROFILE_D_DIR/oracle.sh
-#!/usr/bin/env bash
-export LD_LIBRARY_PATH="\$LD_LIBRARY_PATH:$HOME/.apt/lib/x86_64-linux-gnu:$HOME/vendor/oracle/instantclient_12_1"
-EOF
 
 indent "Done."
